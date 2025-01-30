@@ -1,5 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
-using DSA_TUF_Arrays;
+using DSA_CSharp_Arrays;
 
 Console.WriteLine("ARRAYS!!!!!!!!!!!");
 Console.WriteLine("2 Sum Problem - Get the index values for which the value sum equals target - Hashmap");

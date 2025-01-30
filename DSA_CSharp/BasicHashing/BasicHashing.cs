@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DSA_TUF.BasicHashing
+namespace DSA_CSharp.BasicHashing
 {
     public class BasicHashing
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DSA_TUF.CommonPatterns
+namespace DSA_CSharp.CommonPatterns
 {
     public class Patterns
     {

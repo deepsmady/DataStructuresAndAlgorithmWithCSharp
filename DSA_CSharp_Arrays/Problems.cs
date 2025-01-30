@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DSA_TUF_Arrays
+namespace DSA_CSharp_Arrays
 {
     internal class Problems
     {
