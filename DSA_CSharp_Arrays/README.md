@@ -1,153 +1,118 @@
-# DSA C# Arrays - Algorithm Implementations
+# DSA_CSharp_Arrays
 
-This repository contains various **Data Structures and Algorithms (DSA) implementations** using **C#**, specifically focused on **array problems**.
-
-## 🚀 Features & Implemented Algorithms
-
-1. **Two Sum Problem (HashMap & Two-Pointers)**
-2. **Maximum Profit from Stock Prices**
-3. **Check for Duplicate Elements**
-4. **Product of Array Except Self**
-5. **Kadane’s Algorithm for Maximum Subarray Sum**
-6. **Maximum Subarray Product**
-7. **Next Permutation of an Array**
-8. **Three Sum Problem**
-9. **Majority Element (N/2 Condition)**
+This repository contains a collection of common array-related problems implemented in C#. Each problem is solved using efficient algorithms and data structures to ensure optimal performance. Below is a detailed explanation of each function, its logic, and the algorithm used.
 
 ---
 
-## 📝 Implementations
+## Table of Contents
+1. [Two Sum Problem](#1-two-sum-problem)
+2. [Max Profit](#2-max-profit)
+3. [Contains Duplicate](#3-contains-duplicate)
+4. [Product Except Self](#4-product-except-self)
+5. [Subarray with Maximum Sum (Kadane's Algorithm)](#5-subarray-with-maximum-sum-kadanes-algorithm)
+6. [Subarray with Maximum Product](#6-subarray-with-maximum-product)
+7. [Next Permutation](#7-next-permutation)
+8. [Three Sum](#8-three-sum)
+9. [Majority Element (N/2)](#9-majority-element-n2)
+10. [Usage](#usage)
+11. [Contributing](#contributing)
+12. [License](#license)
 
-### 1️⃣ **Two Sum Problem**
-Finds two indices whose elements sum up to a given target.
+---
 
-- **Using HashMap (O(n) time complexity)**
-- **Using Two Pointers (O(n log n) due to sorting)**
+## 1. Two Sum Problem
+
+### **TwoSumProblemUsingHashMap**
+- **Description**: Finds two numbers in an array that add up to a target using a hash map.
+- **Logic**: Uses a dictionary to store elements and their indices. For each element, it calculates the complement (`target - arr[i]`) and checks if the complement exists in the dictionary.
+- **Time Complexity**: O(N).
+- **Space Complexity**: O(N).
+
+### **TwoSumProblemUsing2Pointers**
+- **Description**: Finds two numbers in a sorted array that add up to a target using two pointers.
+- **Logic**: Sorts the array and uses two pointers to find the pair of elements that sum up to the target.
+- **Time Complexity**: O(N log N).
+- **Space Complexity**: O(N).
+
+---
+
+## 2. Max Profit
+- **Description**: Calculates the maximum profit from buying and selling stocks.
+- **Logic**: Iterates through the array, keeping track of the minimum price and the maximum profit.
+- **Time Complexity**: O(N).
+- **Space Complexity**: O(1).
+
+---
+
+## 3. Contains Duplicate
+
+### **ContainsDuplicate1**
+- **Description**: Checks if an array contains duplicate elements using a dictionary.
+- **Logic**: Uses a dictionary to check for duplicates. If an element already exists in the dictionary, it returns `true`.
+- **Time Complexity**: O(N).
+- **Space Complexity**: O(N).
+
+### **ContainsDuplicate2**
+- **Description**: Checks if an array contains duplicate elements using a HashSet.
+- **Logic**: Uses a HashSet to store elements. If the size of the HashSet is less than the size of the array, it means there are duplicates.
+- **Time Complexity**: O(N).
+- **Space Complexity**: O(N).
+
+---
+
+## 4. Product Except Self
+- **Description**: Computes the product of all elements in the array except the current element.
+- **Logic**: Uses prefix and suffix products to calculate the result.
+- **Time Complexity**: O(N).
+- **Space Complexity**: O(N).
+
+---
+
+## 5. Subarray with Maximum Sum (Kadane's Algorithm)
+- **Description**: Finds the contiguous subarray with the maximum sum.
+- **Logic**: Implements Kadane's Algorithm to find the maximum sum of a contiguous subarray.
+- **Time Complexity**: O(N).
+- **Space Complexity**: O(1).
+
+---
+
+## 6. Subarray with Maximum Product
+- **Description**: Finds the contiguous subarray with the maximum product.
+- **Logic**: Uses prefix and suffix products to find the maximum product.
+- **Time Complexity**: O(N).
+- **Space Complexity**: O(1).
+
+---
+
+## 7. Next Permutation
+- **Description**: Finds the next lexicographical permutation of the array.
+- **Logic**: Identifies the first decreasing element, swaps it with the smallest element greater than it to the right, and reverses the suffix.
+- **Time Complexity**: O(N).
+- **Space Complexity**: O(1).
+
+---
+
+## 8. Three Sum
+- **Description**: Finds all unique triplets in the array that sum up to zero.
+- **Logic**: Sorts the array and uses two pointers to find the triplets.
+- **Time Complexity**: O(N^2).
+- **Space Complexity**: O(1), excluding the space required for the output.
+
+---
+
+## 9. Majority Element (N/2)
+- **Description**: Finds the majority element in an array (appears more than `n/2` times).
+- **Logic**: Uses the Boyer-Moore Voting Algorithm to find the majority element.
+- **Time Complexity**: O(N).
+- **Space Complexity**: O(1).
+
+---
+
+## Usage
+To use these functions, simply call the appropriate method with the required parameters. For example:
 
 ```csharp
-public static int[] TwoSumProblemUsingHashMap(int[] arr, int target)
-```
-
-```csharp
-public static int[] TwoSumProblemUsing2Pointers(int[] arr, int target)
-```
-
----
-
-### 2️⃣ **Best Time to Buy and Sell Stock**
-Finds the maximum profit that can be earned by buying and selling a stock once.
-
-```csharp
-public int MaxProfit(int[] prices)
-```
-
----
-
-### 3️⃣ **Checking for Duplicates**
-Returns `true` if there is any duplicate element in the array.
-
-```csharp
-public bool ContainsDuplicate1(int[] nums)
-public bool ContainsDuplicate2(int[] nums)
-```
-
----
-
-### 4️⃣ **Product of Array Except Self**
-Computes an output array where `output[i]` is the product of all elements except `nums[i]`.
-
-```csharp
-public int[] ProductExceptSelf(int[] nums)
-```
-
----
-
-### 5️⃣ **Kadane's Algorithm (Maximum Subarray Sum)**
-Finds the largest sum of a contiguous subarray.
-
-```csharp
-public int SubarrayWithMaximumSum_KadanesAlgorithm(int[] arr)
-```
-
----
-
-### 6️⃣ **Maximum Subarray Product**
-Finds the subarray with the maximum product.
-
-```csharp
-public int SubarrayWithMaximumProduct(int[] arr)
-```
-
----
-
-### 7️⃣ **Next Permutation**
-Finds the next lexicographical permutation of an array.
-
-```csharp
-public void NextPermutation(int[] arr)
-```
-
----
-
-### 8️⃣ **Three Sum Problem**
-Finds all unique triplets in an array that sum to zero.
-
-```csharp
-public static IList<IList<int>> ThreeSum(int[] arr)
-```
-
----
-
-### 9️⃣ **Majority Element (N/2 Condition)**
-Finds the element that appears more than `n/2` times using **Moore’s Voting Algorithm**.
-
-```csharp
-public static int MajorityElement_NBy2(int[] arr)
-```
-
----
-
-## 🛠️ How to Run the Code
-
-1. **Clone the Repository**
-   ```sh
-   git clone https://github.com/your-username/DSA_CSharp_Arrays.git
-   cd DSA_CSharp_Arrays
-   ```
-
-2. **Open in Visual Studio**
-   - Open the `.sln` file in **Visual Studio**.
-   - Build and run the project.
-
-3. **Run a Specific Function**
-   ```csharp
-   int[] result = Problems.TwoSumProblemUsingHashMap(new int[] {2, 6, 5, 8, 11}, 14);
-   Console.WriteLine($"Indices: {result[0]}, {result[1]}");
-   ```
-
----
-
-## 🏆 Complexity Analysis
-
-| Algorithm | Time Complexity | Space Complexity |
-|-----------|----------------|------------------|
-| **Two Sum (HashMap)** | O(n) | O(n) |
-| **Two Sum (Two-Pointers)** | O(n log n) | O(1) |
-| **Max Profit (Stocks)** | O(n) | O(1) |
-| **Contains Duplicate** | O(n) | O(n) |
-| **Product Except Self** | O(n) | O(n) |
-| **Kadane's Algorithm** | O(n) | O(1) |
-| **Maximum Subarray Product** | O(n) | O(1) |
-| **Next Permutation** | O(n) | O(1) |
-| **Three Sum** | O(n²) | O(n) |
-| **Majority Element (Moore's Algorithm)** | O(n) | O(1) |
-
----
-
-## 📌 Contributing
-Feel free to fork this repository and submit pull requests for improvements.
-
----
-
-## 📜 License
-This project is licensed under the MIT License.
+int[] arr = { 2, 6, 5, 8, 11 };
+int target = 14;
+int[] result = Problems.TwoSumProblemUsingHashMap(arr, target);
+Console.WriteLine($"Indices: {result[0]}, {result[1]}");

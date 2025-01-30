@@ -284,38 +284,43 @@ namespace DSA_CSharp_Arrays
 
         public static int MajorityElement_NBy2(int[] arr)
         {
-            int ctr = 0;
-            int n = arr.Length;
-            int ele = arr[0];
+            int ctr = 0;  // Counter to track the candidate element's occurrence
+            int n = arr.Length;  // Length of the array
+            int ele = arr[0];  // Candidate for the majority element
+
+            // Phase 1: Find the potential majority element using Moore's Voting Algorithm
             for (int i = 0; i <= n - 1; i++)
             {
-                if(ctr == 0)
+                if (ctr == 0)  // If counter is 0, set the current element as the candidate
                 {
                     ele = arr[i];
                     ctr = 1;
                 }
-                else if (arr[i] == ele)
+                else if (arr[i] == ele)  // If the same element appears, increase counter
                 {
                     ctr++;
                 }
-                else
+                else  // If a different element appears, decrease counter
                 {
                     ctr--;
                 }
             }
 
+            // Phase 2: Verify if the candidate appears more than n/2 times
             int ctr2 = 0;
-            for(int i = 0; i <= n - 1; i++)
+            for (int i = 0; i <= n - 1; i++)
             {
-                if(arr[i] == ele)
+                if (arr[i] == ele)
                 {
-                    ctr2++;
+                    ctr2++;  // Count occurrences of the candidate element
                 }
             }
 
+            // If the candidate element occurs more than n/2 times, return it; otherwise, return -1
             if (ctr2 > n / 2) return ele;
             return -1;
         }
+
 
 
     }
