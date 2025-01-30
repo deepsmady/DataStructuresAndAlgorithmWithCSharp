@@ -1,5 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
-using DSA_TUF_Sorting;
+using DSA_CSharp_Sorting;
 
 Console.WriteLine("Sorting world!");
 

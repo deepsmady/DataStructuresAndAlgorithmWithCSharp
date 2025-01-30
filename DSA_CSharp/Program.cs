@@ -1,8 +1,8 @@
 ﻿// See https://aka.ms/new-console-template for more information
-using DSA_TUF.BasicHashing;
-using DSA_TUF.BasicMathsConcepts;
-using DSA_TUF.BasicRecursion;
-using DSA_TUF.CommonPatterns;
+using DSA_CSharp.BasicHashing;
+using DSA_CSharp.BasicMathsConcepts;
+using DSA_CSharp.BasicRecursion;
+using DSA_CSharp.CommonPatterns;
 
 Console.WriteLine("Enter the input value : ");
 int n = int.Parse(Console.ReadLine());
