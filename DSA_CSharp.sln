@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DSA_TUF", "DSA_TUF\DSA_TUF.csproj", "{437C84E5-A133-4ACC-AD44-EEC8042DE75D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DSA_CSharp", "DSA_CSharp\DSA_CSharp.csproj", "{437C84E5-A133-4ACC-AD44-EEC8042DE75D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSA_TUF_Sorting", "DSA_TUF_Sorting\DSA_TUF_Sorting.csproj", "{57E00692-690B-491B-916A-FA5DEB3CCCD4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DSA_Charp_Sorting", "DSA_CSharp_Sorting\DSA_Charp_Sorting.csproj", "{57E00692-690B-491B-916A-FA5DEB3CCCD4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSA_TUF_Arrays", "DSA_TUF_Arrays\DSA_TUF_Arrays.csproj", "{9DF343D7-0784-45E6-B894-CB17CD65461F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DSA_CSharp_Arrays", "DSA_CSharp_Arrays\DSA_CSharp_Arrays.csproj", "{9DF343D7-0784-45E6-B894-CB17CD65461F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
