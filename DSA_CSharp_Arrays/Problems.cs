@@ -320,6 +320,56 @@ namespace DSA_CSharp_Arrays
             if (ctr2 > n / 2) return ele;
             return -1;
         }
+        
+        public static IList<int> MajorityElement_NBy3(int[] arr)
+        {
+            int ctr1 = 0, ctr2 = 0;  // Counter to track the candidate element's occurrence
+            int n = arr.Length;  // Length of the array
+            int ele1 = int.MinValue, ele2 = int.MinValue;  // Candidate for the majority element
+
+            IList<int> listMajorityElements = new List<int>();
+
+            // Phase 1: Find the potential majority element using Moore's Voting Algorithm
+            for (int i = 0; i <= n - 1; i++)
+            {
+                if (ctr1 == 0 && arr[i] != ele2)  // If counter is 0, set the current element as the candidate
+                {
+                    ele1 = arr[i];
+                    ctr1 = 1;
+                }
+                else if (ctr2 == 0 && arr[i] != ele1)  // If counter is 0, set the current element as the candidate
+                {
+                    ele2 = arr[i];
+                    ctr2 = 1;
+                }
+                else if (arr[i] == ele1) ctr1++; // If the same element appears, increase counter
+                else if (arr[i] == ele2) ctr2++; // If the same element appears, increase counter                
+                else  // If a different element appears, decrease counter
+                {
+                    ctr1--;
+                    ctr2--;
+                }
+            }
+
+            // Phase 2: Verify if the candidate appears more than n/3 times
+            ctr1 = 0; ctr2 = 0;
+            for (int i = 0; i <= n - 1; i++)
+            {
+                if (arr[i] == ele1)
+                {
+                    ctr1++;  // Count occurrences of the candidate element
+                } 
+                else if (arr[i] == ele2)
+                {
+                    ctr2++;  // Count occurrences of the candidate element
+                }
+            }
+
+            // If the candidate element occurs more than n/3 times, return it; otherwise, return -1
+            if (ctr1 > n / 3) listMajorityElements.Add(ele1);
+            if (ctr2 > n / 3) listMajorityElements.Add(ele2);
+            return listMajorityElements;
+        }
 
 
 
