@@ -320,7 +320,7 @@ namespace DSA_CSharp_Arrays
             if (ctr2 > n / 2) return ele;
             return -1;
         }
-        
+
         public static IList<int> MajorityElement_NBy3(int[] arr)
         {
             int ctr1 = 0, ctr2 = 0;  // Counter to track the candidate element's occurrence
@@ -358,7 +358,7 @@ namespace DSA_CSharp_Arrays
                 if (arr[i] == ele1)
                 {
                     ctr1++;  // Count occurrences of the candidate element
-                } 
+                }
                 else if (arr[i] == ele2)
                 {
                     ctr2++;  // Count occurrences of the candidate element
@@ -372,6 +372,86 @@ namespace DSA_CSharp_Arrays
         }
 
 
+        /// <summary>
+        /// Brute Force with O(N^3)
+        /// </summary>
+        /// <param name="arr"></param>
+        /// <param name="k"></param>
+        public static int LongestSubarrayWithSum_K_N3(int[] arr, int k)
+        {
+            int len = 0;
+            for (int i = 0; i <= arr.Length - 1; i++)
+            {
+                for (int j = i; j <= arr.Length - 1; j++)
+                {
+                    int sum = 0;
+                    for (int m = i; m <= j; m++)
+                    {
+                        sum += arr[m];
+                        if (sum == k)
+                        {
+                            len = Math.Max(len, j - i + 1);
+                        }
+                    }
+                }
+            }
+            return len;
+        }
 
+        /// <summary>
+        /// Brute Force with O(N^2)
+        /// </summary>
+        /// <param name="arr"></param>
+        /// <param name="k"></param>
+        public static int LongestSubarrayWithSum_K_N2(int[] arr, int k)
+        {
+            int len = 0;
+            for (int i = 0; i <= arr.Length - 1; i++)
+            {
+                int sum = 0;
+                for (int j = i; j <= arr.Length - 1; j++)
+                {
+                    sum += arr[j];
+                    if (sum == k)
+                    {
+                        len = Math.Max(len, j - i + 1);
+                    }
+                }
+            }
+            return len;
+        }
+
+        /// <summary>
+        /// Better Solution with O(NLogN)
+        /// </summary>
+        /// <param name="arr"></param>
+        /// <param name="k"></param>
+        public static int LongestSubarrayWithSum_K_Better(int[] arr, int k)
+        {
+            int maxLen = 0;
+            int sum = 0;
+            Dictionary<int, int> map = new Dictionary<int, int>();
+
+            for (int i = 0; i <= arr.Length - 1; i++)
+            {
+                sum += arr[i];
+                if (sum == k)
+                {
+                    maxLen = Math.Max(maxLen, i + 1);
+                }
+                int rem = sum - k;
+                if (map.ContainsKey(rem))
+                {
+                    int len = i - map[rem];
+                    maxLen = Math.Max(maxLen, len );
+                }
+
+                if (!map.ContainsKey(sum))
+                {
+                    map.Add(sum, i);
+                }
+            }
+            return maxLen;
+        }
     }
 }
