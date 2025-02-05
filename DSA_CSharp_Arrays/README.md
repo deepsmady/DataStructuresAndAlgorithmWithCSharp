@@ -14,9 +14,7 @@ This repository contains a collection of common array-related problems implement
 7. [Next Permutation](#7-next-permutation)
 8. [Three Sum](#8-three-sum)
 9. [Majority Element (N/2)](#9-majority-element-n2)
-10. [Usage](#usage)
-11. [Contributing](#contributing)
-12. [License](#license)
+10. [Longest Subarray with Sum K - Explanation & Implementations](#10-longest-subarray-with-sum-k---explanation--implementations)
 
 ---
 
@@ -108,11 +106,192 @@ This repository contains a collection of common array-related problems implement
 
 ---
 
-## Usage
-To use these functions, simply call the appropriate method with the required parameters. For example:
+# **Longest Subarray with Sum K - Explanation & Implementations**
 
+This document explains various approaches to solving the problem of finding the **longest contiguous subarray** with a given sum `k`. The methods range from brute-force to optimal solutions.
+
+---
+
+## **1. Brute Force Approach - O(N³)**
+### **Explanation**
+- Iterate over all possible subarrays using three nested loops.
+- Compute the sum for each subarray and check if it equals `k`.
+- If a valid subarray is found, update the maximum length.
+
+### **Code**
 ```csharp
-int[] arr = { 2, 6, 5, 8, 11 };
-int target = 14;
-int[] result = Problems.TwoSumProblemUsingHashMap(arr, target);
-Console.WriteLine($"Indices: {result[0]}, {result[1]}");
+/// <summary>
+/// Brute Force with O(N^3) Time Complexity
+/// </summary>
+public static int LongestSubarrayWithSum_K_N3(int[] arr, int k)
+{
+    int len = 0;
+    for (int i = 0; i < arr.Length; i++)
+    {
+        for (int j = i; j < arr.Length; j++)
+        {
+            int sum = 0;
+            for (int m = i; m <= j; m++)
+            {
+                sum += arr[m];
+                if (sum == k)
+                {
+                    len = Math.Max(len, j - i + 1);
+                }
+            }
+        }
+    }
+    return len;
+}
+```
+### **Complexity Analysis**
+- Since there are **three nested loops**, the time complexity is **O(N³)**, making this approach inefficient for large inputs.
+
+---
+
+## **2. Improved Brute Force - O(N²)**
+### **Explanation**
+- Instead of recalculating the sum in the innermost loop, we maintain a running sum.
+- This eliminates the need for the third loop, reducing time complexity to **O(N²)**.
+
+### **Code**
+```csharp
+/// <summary>
+/// Brute Force with O(N^2) Time Complexity
+/// </summary>
+public static int LongestSubarrayWithSum_K_N2(int[] arr, int k)
+{
+    int len = 0;
+    for (int i = 0; i < arr.Length; i++)
+    {
+        int sum = 0;
+        for (int j = i; j < arr.Length; j++)
+        {
+            sum += arr[j];
+            if (sum == k)
+            {
+                len = Math.Max(len, j - i + 1);
+            }
+        }
+    }
+    return len;
+}
+```
+### **Complexity Analysis**
+- Since there are **two nested loops**, the time complexity is **O(N²)**, which is an improvement over the previous approach.
+
+---
+
+## **3. Better Approach - O(N log N)**
+### **Explanation**
+- Uses a **prefix sum and a hash map** to store the first occurrence of a sum.
+- If `(sum - k)` exists in the map, we calculate the subarray length.
+- This reduces the time complexity to **O(N log N)** due to dictionary operations.
+
+### **Code**
+```csharp
+/// <summary>
+/// Better Solution with O(N Log N) Time Complexity
+/// </summary>
+public static int LongestSubarrayWithSum_K_Better(int[] arr, int k)
+{
+    int maxLen = 0;
+    int sum = 0;
+    Dictionary<int, int> map = new Dictionary<int, int>();
+
+    for (int i = 0; i < arr.Length; i++)
+    {
+        sum += arr[i];
+
+        if (sum == k)
+        {
+            maxLen = Math.Max(maxLen, i + 1);
+        }
+
+        int rem = sum - k;
+        if (map.ContainsKey(rem))
+        {
+            maxLen = Math.Max(maxLen, i - map[rem]);
+        }
+
+        if (!map.ContainsKey(sum))
+        {
+            map.Add(sum, i);
+        }
+    }
+    return maxLen;
+}
+```
+### **Complexity Analysis**
+- **O(N log N)** due to dictionary operations, but in most cases, it approaches **O(N)**.
+
+---
+
+## **4. Optimal Approach - O(N)**
+### **Explanation**
+- Uses the **Sliding Window (Two Pointers) technique**.
+- Expands `right` pointer until sum exceeds `k`, then shrinks `left`.
+- Achieves an optimal time complexity of **O(N)**.
+
+### **Code**
+```csharp
+/// <summary>
+/// Optimal Solution using Sliding Window - O(N) Time Complexity
+/// </summary>
+public static int LongestSubarrayWithSum_K_Optimal(int[] arr, int k)
+{
+    int maxLen = 0;
+    int left = 0, right = 0;
+    int n = arr.Length;
+    int sum = arr[0];
+
+    while (right < n)
+    {
+        while (sum > k && left <= right)
+        {
+            sum -= arr[left];
+            left++;
+        }
+
+        if (sum == k)
+        {
+            maxLen = Math.Max(maxLen, right - left + 1);
+        }
+
+        right++;
+        if (right < n)
+        {
+            sum += arr[right];
+        }
+    }
+
+    return maxLen;
+}
+```
+### **Complexity Analysis**
+- **O(N)** since each element is processed at most **twice** (once when expanding and once when contracting).
+
+---
+
+## **Comparison Table**
+
+| Approach | Time Complexity | Space Complexity | Suitable for Large Inputs? |
+|----------|---------------|------------------|----------------------------|
+| **Brute Force (O(N³))** | O(N³) | O(1) | ❌ No |
+| **Improved Brute Force (O(N²))** | O(N²) | O(1) | ❌ No |
+| **Better Approach (O(N log N))** | O(N log N) | O(N) | ✅ Yes |
+| **Optimal Sliding Window (O(N))** | O(N) | O(1) | ✅✅ Best |
+
+---
+
+## **Final Thoughts**
+- **For positive numbers only**, the **Sliding Window approach (O(N))** is the best.
+- If the array contains **negative numbers**, the **Hash Map approach (O(N log N))** should be used instead.
+- **Brute force methods are not practical** for large inputs but serve as a baseline for understanding.
+
+---
+
+Would you like any modifications or additional explanations? 😊
+
+
+
