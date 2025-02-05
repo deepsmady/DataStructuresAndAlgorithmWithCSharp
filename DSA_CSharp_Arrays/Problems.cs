@@ -428,30 +428,77 @@ namespace DSA_CSharp_Arrays
         /// <param name="k"></param>
         public static int LongestSubarrayWithSum_K_Better(int[] arr, int k)
         {
-            int maxLen = 0;
-            int sum = 0;
-            Dictionary<int, int> map = new Dictionary<int, int>();
+            int maxLen = 0; // Stores the length of the longest subarray with sum K
+            int sum = 0; // Cumulative sum of elements
+            Dictionary<int, int> map = new Dictionary<int, int>(); // Maps prefix sum to its earliest index
 
-            for (int i = 0; i <= arr.Length - 1; i++)
+            for (int i = 0; i < arr.Length; i++)
             {
-                sum += arr[i];
+                sum += arr[i]; // Add current element to sum
+
+                // Case 1: If sum itself equals k, update maxLen
                 if (sum == k)
                 {
                     maxLen = Math.Max(maxLen, i + 1);
                 }
-                int rem = sum - k;
+
+                // Case 2: Check if sum - k exists in the map
+                int rem = sum - k; // Remainder when looking for subarray sum k
                 if (map.ContainsKey(rem))
                 {
-                    int len = i - map[rem];
-                    maxLen = Math.Max(maxLen, len );
+                    int len = i - map[rem]; // Subarray length from map[rem] + 1 to i
+                    maxLen = Math.Max(maxLen, len);
                 }
 
+                // Case 3: Store the first occurrence of sum in the map
                 if (!map.ContainsKey(sum))
                 {
                     map.Add(sum, i);
                 }
             }
             return maxLen;
+        }
+
+
+        /// <summary>
+        /// The function LongestSubarrayWithSum_K_Optimal finds the length of the longest subarray whose sum equals k. 
+        /// This is achieved using the two-pointer (or sliding window) technique, making the approach optimal 
+        /// with O(N) complexity.
+        /// </summary>
+        /// <param name="arr"></param>
+        /// <param name="k"></param>
+        /// <returns></returns>
+        public static int LongestSubarrayWithSum_K_Optimal(int[] arr, int k)
+        {
+            int maxLen = 0; // Stores the maximum length of subarray with sum K
+            int left = 0, right = 0; // Two pointers for sliding window
+            int n = arr.Length;
+            int sum = arr[0]; // Current sum of window
+
+            while (right < n) // Iterate until the end of the array
+            {
+                // If the sum exceeds K, shrink the window from the left
+                while (sum > k && left <= right)
+                {
+                    sum -= arr[left]; // Remove leftmost element from sum
+                    left++; // Move left pointer forward
+                }
+
+                // If a valid subarray is found, update maxLen
+                if (sum == k)
+                {
+                    maxLen = Math.Max(maxLen, right - left + 1);
+                }
+
+                // Expand the window by moving the right pointer
+                right++;
+                if (right < n)
+                {
+                    sum += arr[right]; // Add the new right element to sum
+                }
+            }
+
+            return maxLen; // Return the length of the longest subarray
         }
     }
 }
