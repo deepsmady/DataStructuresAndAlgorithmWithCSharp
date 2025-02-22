@@ -204,7 +204,7 @@ namespace DSA_CSharp_Arrays
             return maxProduct;
         }
 
-        public void NextPermutation(int[] arr)
+        public static void NextPermutation(int[] arr)
         {
             int n = arr.Length;
             int dipIndex = -1;
@@ -500,5 +500,119 @@ namespace DSA_CSharp_Arrays
 
             return maxLen; // Return the length of the longest subarray
         }
+
+
+        /// <summary>
+        /// find the count of subarrays whose sum equals a given integer k
+        /// </summary>
+        /// <param name="arr"></param>
+        /// <param name="k"></param>
+        /// <returns></returns>
+        public static int FindAllSubArraysWithGivenSum(int[] arr, int k)
+        {
+            int preSum = 0; // Stores the cumulative sum of elements from index 0 to i
+            int ctr = 0; // Stores the count of subarrays whose sum equals k
+            Dictionary<int, int> map = new Dictionary<int, int>(); // Stores the frequency of prefix sums
+            map.Add(0, 1); // Initialize with {0:1} to handle cases where a subarray itself sums to k
+
+            int n = arr.Length; // Get the length of the array
+
+            for (int i = 0; i < n; i++)  // Iterate through the array
+            {
+                preSum += arr[i];  // Update the cumulative sum (prefix sum)
+                int rem = preSum - k; // Calculate the remaining sum needed to form k
+
+                // If the remainder exists in map, it means there are map[rem] subarrays ending at index i that sum to k
+                if (map.ContainsKey(rem))
+                {
+                    ctr += map[rem]; // Add the count of such subarrays
+                }
+
+                // Update the frequency of preSum in the map
+                if (map.ContainsKey(preSum))
+                {
+                    map[preSum] += 1;
+                }
+                else
+                {
+                    map.Add(preSum, 1);
+                }
+            }
+
+            return ctr; // Return the total count of subarrays whose sum equals k
+        }
+
+
+        /// <summary>
+        /// Sub-Arrays With XOR K
+        /// </summary>
+        /// <param name="arr"></param>
+        /// <param name="k"></param>
+        /// <returns></returns>
+        public static int SubArraysWithXOR_K(int[] arr, int k)
+        {
+            int XR = 0; // Stores the prefix XOR
+            int ctr = 0; // Stores the count of valid subarrays
+            Dictionary<int, int> map = new Dictionary<int, int>();
+            map.Add(0, 1); // Base case: XOR 0 appears once
+
+            int n = arr.Length; // Get the length of the array
+
+            for (int i = 0; i < n; i++)  // Iterate through the array
+            {
+                XR = XR ^ arr[i];  // Compute the prefix XOR
+                int x = XR ^ k; // Check if there exists a prefix that gives XOR k
+
+                // If prefix XOR `x` exists in the map, it means there are subarrays with XOR `k`
+                if (map.ContainsKey(x))
+                {
+                    ctr += map[x];  // Add the count of subarrays
+                }
+
+                // Store the prefix XOR count in the map
+                if (map.ContainsKey(XR))
+                {
+                    map[XR] += 1;
+                }
+                else
+                {
+                    map.Add(XR, 1);
+                }
+            }
+
+            return ctr;  // Return the total count of subarrays with XOR k
+        }
+
+        /// <summary>
+        /// FindMissingAndRepeatingNumbers in an array with number from 1 to N
+        /// </summary>
+        /// <param name="arr"></param>
+        /// <returns></returns>
+        public static List<int> FindMissingAndRepeatingNumbers(int[] arr)
+        {
+            var result = new List<int>();
+            int n = arr.Length;
+            int sn = n * (n + 1) / 2;
+            int sn2 = (n * (n + 1) * (2*n+1)) / 6;
+
+            int s = 0;
+            int s2 = 0;
+            for (int i = 0;i <= n-1; i++)
+            {
+                s += arr[i];
+                s2 += arr[i]*arr[i];
+            }
+
+            int val1 = s - sn; //x - y ----(1)
+            int val2 = s2 - sn2; //x2-y2 = (x-y)*(x+y) => x+y = val2/(x-y) = val2/val1
+            val2 = val2 / val1;//x+y   ----(2)
+
+            //(1) + (2) => x = (val1+ val2)/2
+            int x = (int)(val1 + val2) / 2; //repeating
+            int y = x - val1; //missing
+
+            return new List<int> { x, y };
+        }
+
     }
 }

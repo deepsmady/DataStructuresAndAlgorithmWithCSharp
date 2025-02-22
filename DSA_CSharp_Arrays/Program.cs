@@ -20,4 +20,20 @@ Console.WriteLine($"Array : {string.Join(',', arr)}");
 Problems.NextPermutation(arr);
 Console.WriteLine($"Next Permutation : {string.Join(',', arr)}");
 
+Console.WriteLine("--- Find All Sub Arrays With Given Sum ---");
+arr = new int[] { 3,1,2,4 };
+var count = Problems.FindAllSubArraysWithGivenSum(arr,6);
+Console.WriteLine($"Count of Sub Arrays With Given Sum : {count}");
+
+Console.WriteLine("--- Find All Sub Arrays With XOR : K ---");
+arr = new int[] { 4,2,2,6,4 };
+count = Problems.SubArraysWithXOR_K(arr, 6);
+Console.WriteLine($"Count of Sub Arrays With With XOR : K = {count}");
+
+Console.WriteLine("--- Find Missing And Repeating Numbers ---");
+arr = new int[] { 4, 3, 6, 2, 1, 1 };
+Console.WriteLine($"Array : {string.Join(',', arr)}");
+List<int> missingRepeating = Problems.FindMissingAndRepeatingNumbers(arr);
+Console.WriteLine($"Repeating = {missingRepeating[0]}, Missing = {missingRepeating[1]}");
+
 Console.ReadKey();
