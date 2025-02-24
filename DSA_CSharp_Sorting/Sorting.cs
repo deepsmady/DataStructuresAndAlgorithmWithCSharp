@@ -107,6 +107,7 @@ namespace DSA_CSharp_Sorting
             return arr;
         }
 
+        #region Merge Sort
         public static void MergeSort(int[] arr, int low, int high)
         {
             //if low=high, then it has reached single element, so can be returned
@@ -160,7 +161,8 @@ namespace DSA_CSharp_Sorting
             {
                 arr[i] = temp[i - low];
             }
-        }
+        } 
+        #endregion
 
         public static void QuickSort(int[] arr, int low, int high)
         {

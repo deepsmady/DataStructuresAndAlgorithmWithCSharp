@@ -614,5 +614,71 @@ namespace DSA_CSharp_Arrays
             return new List<int> { x, y };
         }
 
+        #region CountInversionsInArray
+
+        /// <summary>
+        /// This makes use of the merge sort with a small addition of 'ctr += mid - left + 1'.
+        /// </summary>
+        /// <param name="arr"></param>
+        /// <param name="low"></param>
+        /// <param name="high"></param>
+        /// <returns></returns>
+        public static int CountInversionsInArray(int[] arr, int low, int high)
+        {
+            int ctr = 0;
+            //if low=high, then it has reached single element, so can be returned
+            if (low >= high) return ctr;
+            int mid = (low + high) / 2;
+            //For left section
+            ctr += CountInversionsInArray(arr, low, mid);
+            //For right section
+            ctr += CountInversionsInArray(arr, mid + 1, high);
+            //Once the left and right section is done, merge both section elements in a sorted way
+            ctr += Merge(arr, low, mid, high);
+            return ctr;
+        }
+
+        private static int Merge(int[] arr, int low, int mid, int high)
+        {
+            int left = low;
+            int right = mid + 1;
+            List<int> temp = new List<int>();
+            int ctr = 0;
+            //Checking in left and right section adding to a temporary list in sorted order.
+            while (left <= mid && right <= high)
+            {
+                if (arr[left] < arr[right])
+                {
+                    temp.Add(arr[left]);
+                    left++;
+                }
+                else {
+                    temp.Add(arr[right]);
+                    ctr += mid - left + 1; //all the elements on the right in the left section array can form a pair for Inversions.
+                    right++;
+                }
+            }
+            //If something is left in left section, add to temp entirely
+            while (left <= mid)
+            {
+                temp.Add(arr[left]);
+                left++;
+            }
+            //If something is left in right section, add to temp entirely
+            while (right <= high)
+            {
+                temp.Add(arr[right]);
+                right++;
+            }
+            //Add back to original arr from temp
+            for (int i = low; i <= high; i++)
+            {
+                arr[i] = temp[i - low];
+            }
+            return ctr;
+        }
+        #endregion
+
+
     }
 }
