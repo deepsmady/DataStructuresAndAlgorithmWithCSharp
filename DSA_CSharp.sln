@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DSA_Charp_Sorting", "DSA_CS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DSA_CSharp_Arrays", "DSA_CSharp_Arrays\DSA_CSharp_Arrays.csproj", "{9DF343D7-0784-45E6-B894-CB17CD65461F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSA_CSharp_BinarySearch", "DSA_CSharp_BinarySearch\DSA_CSharp_BinarySearch.csproj", "{9BD803DA-2048-4E6E-83DF-B8B23994308B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{9DF343D7-0784-45E6-B894-CB17CD65461F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9DF343D7-0784-45E6-B894-CB17CD65461F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9DF343D7-0784-45E6-B894-CB17CD65461F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BD803DA-2048-4E6E-83DF-B8B23994308B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BD803DA-2048-4E6E-83DF-B8B23994308B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BD803DA-2048-4E6E-83DF-B8B23994308B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BD803DA-2048-4E6E-83DF-B8B23994308B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
