@@ -111,6 +111,58 @@ namespace DSA_CSharp_BinarySearch
             return -1; // Target not found
         }
 
+        /// <summary>
+        /// Search Element In RotatedSortedArray if there are duplivcate entries       
+        /// </summary>
+        /// <param name="arr"></param>
+        /// <param name="k"></param>
+        /// <returns></returns>
+        private bool SearchElementInRotatedSortedArray2(int[] arr, int k)
+        {
+            int n = arr.Length;
+            int low = 0, high = n - 1;
+
+            while (low <= high)
+            {
+                int mid = low + (high - low) / 2; // Calculate the middle index to avoid overflow
+
+                if (arr[mid] == k) return true; // If the middle element is the target, return its index
+
+                if(arr[low] == arr[mid] && arr[mid] == arr[high])
+                {
+                    low++;
+                    high--;
+                    continue;
+                }
+                // Check if the left half is sorted
+                if (arr[low] <= arr[mid])
+                {
+                    // If the target lies within the sorted left half
+                    if (k >= arr[low] && k <= arr[mid])
+                    {
+                        high = mid - 1; // Narrow search to the left half
+                    }
+                    else
+                    {
+                        low = mid + 1; // Search in the right half
+                    }
+                }
+                else
+                {
+                    // If the target lies within the sorted right half
+                    if (k >= arr[mid] && k <= arr[high])
+                    {
+                        low = mid + 1; // Narrow search to the right half
+                    }
+                    else
+                    {
+                        high = mid - 1; // Search in the left half
+                    }
+                }
+            }
+
+            return false; // Target not found
+        }
 
     }
 }
