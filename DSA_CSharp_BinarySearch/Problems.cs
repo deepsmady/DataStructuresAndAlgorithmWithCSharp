@@ -112,7 +112,7 @@ namespace DSA_CSharp_BinarySearch
         }
 
         /// <summary>
-        /// Search Element In RotatedSortedArray if there are duplivcate entries       
+        /// Search Element In RotatedSortedArray if there are duplicate entries       
         /// </summary>
         /// <param name="arr"></param>
         /// <param name="k"></param>
@@ -163,6 +163,32 @@ namespace DSA_CSharp_BinarySearch
 
             return false; // Target not found
         }
+
+        public static int MinimumInRotatedSortedArray(int[] arr)
+        {
+            int low = 0, high = arr.Length - 1; // Initialize pointers to the start and end of the array
+            int min = int.MaxValue; // Initialize min value to the largest possible integer
+
+            while (low <= high)
+            {
+                int mid = low + (high - low) / 2; // Calculate mid index to prevent overflow
+
+                // If the left half is sorted
+                if (arr[low] <= arr[mid])
+                {
+                    min = Math.Min(min, arr[low]); // Update min with the smallest element in the left half
+                    low = mid + 1; // Move to the right half since left half is sorted
+                }
+                else
+                {
+                    min = Math.Min(min, arr[mid]); // Update min with the smallest element in the right half
+                    high = mid - 1; // Move to the left half
+                }
+            }
+
+            return min; // Return the minimum element found
+        }
+
 
     }
 }
