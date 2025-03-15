@@ -227,7 +227,48 @@ namespace DSA_CSharp_BinarySearch
             return -1; // Should never reach here if a peak exists
         }
 
+        /// <summary>
+        /// KokoEatingBananas
+        /// </summary>
+        /// <param name="arr"></param>
+        /// <param name="h"></param>
+        /// <returns></returns>
+        public static int MinEatingSpeed(int[] arr, int h)
+        {
+            long low = 1;  // Use long to prevent integer overflow
+            long high = arr.Max();
+            long minBananasToEatPerHour = high;
 
+            while (low <= high)
+            {
+                long mid = low + (high - low) / 2; // Prevent overflow
 
+                long totalHours = TimeTakenToEat(arr, mid); // Calculate required hours
+
+                if (totalHours <= h)
+                {
+                    minBananasToEatPerHour = mid;
+                    high = mid - 1; // Try to minimize the eating speed
+                }
+                else
+                {
+                    low = mid + 1; // Increase speed
+                }
+            }
+            return (int)minBananasToEatPerHour; // Cast back to int (safe now)
+        }
+
+        private static long TimeTakenToEat(int[] arr, long noOfBananasPerHour)
+        {
+            long totalHours = 0; // Use long to avoid overflow
+
+            foreach (int bananas in arr)
+            {
+                totalHours += (bananas + noOfBananasPerHour - 1) / noOfBananasPerHour;
+                // Alternative to Math.Ceiling, avoids floating point arithmetic
+            }
+
+            return totalHours;
+        }
     }
 }
