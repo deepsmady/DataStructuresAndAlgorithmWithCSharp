@@ -128,7 +128,7 @@ namespace DSA_CSharp_BinarySearch
 
                 if (arr[mid] == k) return true; // If the middle element is the target, return its index
 
-                if(arr[low] == arr[mid] && arr[mid] == arr[high])
+                if (arr[low] == arr[mid] && arr[mid] == arr[high])
                 {
                     low++;
                     high--;
@@ -188,6 +188,45 @@ namespace DSA_CSharp_BinarySearch
 
             return min; // Return the minimum element found
         }
+
+        public static int FindPeakElement(int[] arr)
+        {
+            int n = arr.Length;
+
+            // If there is only one element, it is the peak
+            if (n == 1) return 0;
+
+            // Check if the first element is a peak
+            if (arr[0] > arr[1]) return 0;
+
+            // Check if the last element is a peak
+            if (arr[n - 1] > arr[n - 2]) return n - 1;
+
+            // Initialize binary search range (excluding first and last elements)
+            int low = 1, high = n - 2;
+
+            while (low <= high)
+            {
+                int mid = low + (high - low) / 2; // Calculate mid index to prevent overflow
+
+                // Check if mid element is greater than both its neighbors
+                if (arr[mid] > arr[mid - 1] && arr[mid] > arr[mid + 1])
+                {
+                    return mid; // Peak element found
+                }
+                else if (arr[mid] > arr[mid - 1]) // If mid element is increasing, peak must be on the right
+                {
+                    low = mid + 1;
+                }
+                else // If mid element is decreasing, peak must be on the left
+                {
+                    high = mid - 1;
+                }
+            }
+
+            return -1; // Should never reach here if a peak exists
+        }
+
 
 
     }
