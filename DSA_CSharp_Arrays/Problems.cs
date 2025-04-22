@@ -204,7 +204,7 @@ namespace DSA_CSharp_Arrays
             return maxProduct;
         }
 
-        public void NextPermutation(int[] arr)
+        public static void NextPermutation(int[] arr)
         {
             int n = arr.Length;
             int dipIndex = -1;
@@ -284,38 +284,400 @@ namespace DSA_CSharp_Arrays
 
         public static int MajorityElement_NBy2(int[] arr)
         {
-            int ctr = 0;
-            int n = arr.Length;
-            int ele = arr[0];
+            int ctr = 0;  // Counter to track the candidate element's occurrence
+            int n = arr.Length;  // Length of the array
+            int ele = arr[0];  // Candidate for the majority element
+
+            // Phase 1: Find the potential majority element using Moore's Voting Algorithm
             for (int i = 0; i <= n - 1; i++)
             {
-                if(ctr == 0)
+                if (ctr == 0)  // If counter is 0, set the current element as the candidate
                 {
                     ele = arr[i];
                     ctr = 1;
                 }
-                else if (arr[i] == ele)
+                else if (arr[i] == ele)  // If the same element appears, increase counter
                 {
                     ctr++;
                 }
-                else
+                else  // If a different element appears, decrease counter
                 {
                     ctr--;
                 }
             }
 
+            // Phase 2: Verify if the candidate appears more than n/2 times
             int ctr2 = 0;
-            for(int i = 0; i <= n - 1; i++)
+            for (int i = 0; i <= n - 1; i++)
             {
-                if(arr[i] == ele)
+                if (arr[i] == ele)
                 {
-                    ctr2++;
+                    ctr2++;  // Count occurrences of the candidate element
                 }
             }
 
+            // If the candidate element occurs more than n/2 times, return it; otherwise, return -1
             if (ctr2 > n / 2) return ele;
             return -1;
         }
+
+        public static IList<int> MajorityElement_NBy3(int[] arr)
+        {
+            int ctr1 = 0, ctr2 = 0;  // Counter to track the candidate element's occurrence
+            int n = arr.Length;  // Length of the array
+            int ele1 = int.MinValue, ele2 = int.MinValue;  // Candidate for the majority element
+
+            IList<int> listMajorityElements = new List<int>();
+
+            // Phase 1: Find the potential majority element using Moore's Voting Algorithm
+            for (int i = 0; i <= n - 1; i++)
+            {
+                if (ctr1 == 0 && arr[i] != ele2)  // If counter is 0, set the current element as the candidate
+                {
+                    ele1 = arr[i];
+                    ctr1 = 1;
+                }
+                else if (ctr2 == 0 && arr[i] != ele1)  // If counter is 0, set the current element as the candidate
+                {
+                    ele2 = arr[i];
+                    ctr2 = 1;
+                }
+                else if (arr[i] == ele1) ctr1++; // If the same element appears, increase counter
+                else if (arr[i] == ele2) ctr2++; // If the same element appears, increase counter                
+                else  // If a different element appears, decrease counter
+                {
+                    ctr1--;
+                    ctr2--;
+                }
+            }
+
+            // Phase 2: Verify if the candidate appears more than n/3 times
+            ctr1 = 0; ctr2 = 0;
+            for (int i = 0; i <= n - 1; i++)
+            {
+                if (arr[i] == ele1)
+                {
+                    ctr1++;  // Count occurrences of the candidate element
+                }
+                else if (arr[i] == ele2)
+                {
+                    ctr2++;  // Count occurrences of the candidate element
+                }
+            }
+
+            // If the candidate element occurs more than n/3 times, return it; otherwise, return -1
+            if (ctr1 > n / 3) listMajorityElements.Add(ele1);
+            if (ctr2 > n / 3) listMajorityElements.Add(ele2);
+            return listMajorityElements;
+        }
+
+
+        /// <summary>
+        /// Brute Force with O(N^3)
+        /// </summary>
+        /// <param name="arr"></param>
+        /// <param name="k"></param>
+        public static int LongestSubarrayWithSum_K_N3(int[] arr, int k)
+        {
+            int len = 0;
+            for (int i = 0; i <= arr.Length - 1; i++)
+            {
+                for (int j = i; j <= arr.Length - 1; j++)
+                {
+                    int sum = 0;
+                    for (int m = i; m <= j; m++)
+                    {
+                        sum += arr[m];
+                        if (sum == k)
+                        {
+                            len = Math.Max(len, j - i + 1);
+                        }
+                    }
+                }
+            }
+            return len;
+        }
+
+        /// <summary>
+        /// Brute Force with O(N^2)
+        /// </summary>
+        /// <param name="arr"></param>
+        /// <param name="k"></param>
+        public static int LongestSubarrayWithSum_K_N2(int[] arr, int k)
+        {
+            int len = 0;
+            for (int i = 0; i <= arr.Length - 1; i++)
+            {
+                int sum = 0;
+                for (int j = i; j <= arr.Length - 1; j++)
+                {
+                    sum += arr[j];
+                    if (sum == k)
+                    {
+                        len = Math.Max(len, j - i + 1);
+                    }
+                }
+            }
+            return len;
+        }
+
+        /// <summary>
+        /// Better Solution with O(NLogN)
+        /// </summary>
+        /// <param name="arr"></param>
+        /// <param name="k"></param>
+        public static int LongestSubarrayWithSum_K_Better(int[] arr, int k)
+        {
+            int maxLen = 0; // Stores the length of the longest subarray with sum K
+            int sum = 0; // Cumulative sum of elements
+            Dictionary<int, int> map = new Dictionary<int, int>(); // Maps prefix sum to its earliest index
+
+            for (int i = 0; i < arr.Length; i++)
+            {
+                sum += arr[i]; // Add current element to sum
+
+                // Case 1: If sum itself equals k, update maxLen
+                if (sum == k)
+                {
+                    maxLen = Math.Max(maxLen, i + 1);
+                }
+
+                // Case 2: Check if sum - k exists in the map
+                int rem = sum - k; // Remainder when looking for subarray sum k
+                if (map.ContainsKey(rem))
+                {
+                    int len = i - map[rem]; // Subarray length from map[rem] + 1 to i
+                    maxLen = Math.Max(maxLen, len);
+                }
+
+                // Case 3: Store the first occurrence of sum in the map
+                if (!map.ContainsKey(sum))
+                {
+                    map.Add(sum, i);
+                }
+            }
+            return maxLen;
+        }
+
+
+        /// <summary>
+        /// The function LongestSubarrayWithSum_K_Optimal finds the length of the longest subarray whose sum equals k. 
+        /// This is achieved using the two-pointer (or sliding window) technique, making the approach optimal 
+        /// with O(N) complexity.
+        /// </summary>
+        /// <param name="arr"></param>
+        /// <param name="k"></param>
+        /// <returns></returns>
+        public static int LongestSubarrayWithSum_K_Optimal(int[] arr, int k)
+        {
+            int maxLen = 0; // Stores the maximum length of subarray with sum K
+            int left = 0, right = 0; // Two pointers for sliding window
+            int n = arr.Length;
+            int sum = arr[0]; // Current sum of window
+
+            while (right < n) // Iterate until the end of the array
+            {
+                // If the sum exceeds K, shrink the window from the left
+                while (sum > k && left <= right)
+                {
+                    sum -= arr[left]; // Remove leftmost element from sum
+                    left++; // Move left pointer forward
+                }
+
+                // If a valid subarray is found, update maxLen
+                if (sum == k)
+                {
+                    maxLen = Math.Max(maxLen, right - left + 1);
+                }
+
+                // Expand the window by moving the right pointer
+                right++;
+                if (right < n)
+                {
+                    sum += arr[right]; // Add the new right element to sum
+                }
+            }
+
+            return maxLen; // Return the length of the longest subarray
+        }
+
+
+        /// <summary>
+        /// find the count of subarrays whose sum equals a given integer k
+        /// </summary>
+        /// <param name="arr"></param>
+        /// <param name="k"></param>
+        /// <returns></returns>
+        public static int FindAllSubArraysWithGivenSum(int[] arr, int k)
+        {
+            int preSum = 0; // Stores the cumulative sum of elements from index 0 to i
+            int ctr = 0; // Stores the count of subarrays whose sum equals k
+            Dictionary<int, int> map = new Dictionary<int, int>(); // Stores the frequency of prefix sums
+            map.Add(0, 1); // Initialize with {0:1} to handle cases where a subarray itself sums to k
+
+            int n = arr.Length; // Get the length of the array
+
+            for (int i = 0; i < n; i++)  // Iterate through the array
+            {
+                preSum += arr[i];  // Update the cumulative sum (prefix sum)
+                int rem = preSum - k; // Calculate the remaining sum needed to form k
+
+                // If the remainder exists in map, it means there are map[rem] subarrays ending at index i that sum to k
+                if (map.ContainsKey(rem))
+                {
+                    ctr += map[rem]; // Add the count of such subarrays
+                }
+
+                // Update the frequency of preSum in the map
+                if (map.ContainsKey(preSum))
+                {
+                    map[preSum] += 1;
+                }
+                else
+                {
+                    map.Add(preSum, 1);
+                }
+            }
+
+            return ctr; // Return the total count of subarrays whose sum equals k
+        }
+
+
+        /// <summary>
+        /// Sub-Arrays With XOR K
+        /// </summary>
+        /// <param name="arr"></param>
+        /// <param name="k"></param>
+        /// <returns></returns>
+        public static int SubArraysWithXOR_K(int[] arr, int k)
+        {
+            int XR = 0; // Stores the prefix XOR
+            int ctr = 0; // Stores the count of valid subarrays
+            Dictionary<int, int> map = new Dictionary<int, int>();
+            map.Add(0, 1); // Base case: XOR 0 appears once
+
+            int n = arr.Length; // Get the length of the array
+
+            for (int i = 0; i < n; i++)  // Iterate through the array
+            {
+                XR = XR ^ arr[i];  // Compute the prefix XOR
+                int x = XR ^ k; // Check if there exists a prefix that gives XOR k
+
+                // If prefix XOR `x` exists in the map, it means there are subarrays with XOR `k`
+                if (map.ContainsKey(x))
+                {
+                    ctr += map[x];  // Add the count of subarrays
+                }
+
+                // Store the prefix XOR count in the map
+                if (map.ContainsKey(XR))
+                {
+                    map[XR] += 1;
+                }
+                else
+                {
+                    map.Add(XR, 1);
+                }
+            }
+
+            return ctr;  // Return the total count of subarrays with XOR k
+        }
+
+        /// <summary>
+        /// FindMissingAndRepeatingNumbers in an array with number from 1 to N
+        /// </summary>
+        /// <param name="arr"></param>
+        /// <returns></returns>
+        public static List<int> FindMissingAndRepeatingNumbers(int[] arr)
+        {
+            var result = new List<int>();
+            int n = arr.Length;
+            int sn = n * (n + 1) / 2;
+            int sn2 = (n * (n + 1) * (2*n+1)) / 6;
+
+            int s = 0;
+            int s2 = 0;
+            for (int i = 0;i <= n-1; i++)
+            {
+                s += arr[i];
+                s2 += arr[i]*arr[i];
+            }
+
+            int val1 = s - sn; //x - y ----(1)
+            int val2 = s2 - sn2; //x2-y2 = (x-y)*(x+y) => x+y = val2/(x-y) = val2/val1
+            val2 = val2 / val1;//x+y   ----(2)
+
+            //(1) + (2) => x = (val1+ val2)/2
+            int x = (int)(val1 + val2) / 2; //repeating
+            int y = x - val1; //missing
+
+            return new List<int> { x, y };
+        }
+
+        #region CountInversionsInArray
+
+        /// <summary>
+        /// This makes use of the merge sort with a small addition of 'ctr += mid - left + 1'.
+        /// </summary>
+        /// <param name="arr"></param>
+        /// <param name="low"></param>
+        /// <param name="high"></param>
+        /// <returns></returns>
+        public static int CountInversionsInArray(int[] arr, int low, int high)
+        {
+            int ctr = 0;
+            //if low=high, then it has reached single element, so can be returned
+            if (low >= high) return ctr;
+            int mid = (low + high) / 2;
+            //For left section
+            ctr += CountInversionsInArray(arr, low, mid);
+            //For right section
+            ctr += CountInversionsInArray(arr, mid + 1, high);
+            //Once the left and right section is done, merge both section elements in a sorted way
+            ctr += Merge(arr, low, mid, high);
+            return ctr;
+        }
+
+        private static int Merge(int[] arr, int low, int mid, int high)
+        {
+            int left = low;
+            int right = mid + 1;
+            List<int> temp = new List<int>();
+            int ctr = 0;
+            //Checking in left and right section adding to a temporary list in sorted order.
+            while (left <= mid && right <= high)
+            {
+                if (arr[left] < arr[right])
+                {
+                    temp.Add(arr[left]);
+                    left++;
+                }
+                else {
+                    temp.Add(arr[right]);
+                    ctr += mid - left + 1; //all the elements on the right in the left section array can form a pair for Inversions.
+                    right++;
+                }
+            }
+            //If something is left in left section, add to temp entirely
+            while (left <= mid)
+            {
+                temp.Add(arr[left]);
+                left++;
+            }
+            //If something is left in right section, add to temp entirely
+            while (right <= high)
+            {
+                temp.Add(arr[right]);
+                right++;
+            }
+            //Add back to original arr from temp
+            for (int i = low; i <= high; i++)
+            {
+                arr[i] = temp[i - low];
+            }
+            return ctr;
+        }
+        #endregion
 
 
     }
